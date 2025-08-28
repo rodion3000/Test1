@@ -4,6 +4,8 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.ResourceProviders;
 using Project.Dev.Infrastructure.SceneManagment;
 using Project.Dev.Services.Interfaces;
+using UnityEngine.UIElements;
+using ProgressBar = Project.Dev.Meta.UI.ProgressBar.ProgressBar;
 
 namespace Project.Dev.Infrastructure.AssetManager
 {
@@ -12,7 +14,7 @@ namespace Project.Dev.Infrastructure.AssetManager
         public Task<T> Load<T>(string key, CancellationToken cancellationToken = default) where T : class;
         public Task<T> Load<T>(AssetReference assetReference, CancellationToken cancellationToken = default) where T : class;
 
-        public Task<SceneInstance> LoadScene(SceneName sceneName, CancellationToken cancellationToken = default);
+        public Task<SceneInstance> LoadScene(SceneName sceneName, ProgressBar progressBar,CancellationToken cancellationToken = default);
 
         public void Release(string key);
         public void Release(AssetReference assetReference);

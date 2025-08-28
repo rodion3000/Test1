@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.ResourceManagement.ResourceProviders;
 using Project.Dev.Infrastructure.AssetManager;
+using UnityEngine.UIElements;
+using ProgressBar = Project.Dev.Meta.UI.ProgressBar.ProgressBar;
 
 namespace Project.Dev.Infrastructure.SceneManagment
 {
@@ -16,9 +18,9 @@ namespace Project.Dev.Infrastructure.SceneManagment
             _assetProvider = assetProvider;
         }
 
-        public async Task<SceneInstance> Load(SceneName sceneName, CancellationToken cancellationToken = default)
+        public async Task<SceneInstance> Load(SceneName sceneName,ProgressBar progressBar, CancellationToken cancellationToken = default)
         {
-            var scene = await _assetProvider.LoadScene(sceneName, cancellationToken);
+            var scene = await _assetProvider.LoadScene(sceneName,progressBar,cancellationToken);
             cancellationToken.ThrowIfCancellationRequested();
 
             scene.ActivateAsync();

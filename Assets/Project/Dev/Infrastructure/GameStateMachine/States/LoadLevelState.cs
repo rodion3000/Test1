@@ -6,6 +6,8 @@ using CustomExtensions.Tasks;
 using Project.Data.HeroData.StageProgressData;
 using Project.Dev.Infrastructure.SceneManagment;
 using UnityEngine;
+using UnityEngine.UIElements;
+using ProgressBar = Project.Dev.Meta.UI.ProgressBar.ProgressBar;
 
 namespace Project.Dev.Infrastructure.GameStateMachine.States
 {
@@ -50,8 +52,11 @@ namespace Project.Dev.Infrastructure.GameStateMachine.States
         {
             await _heroFactory.WarmUp();
             await _stageFactorie.WarmUp(_stageLocalData.locationName);
+            await InitProgressBArRoot();
+            var progressBar = await _uiFactorie.CreateProgressBar();
+            await Task.Delay(500);
             
-            var sceneInstance = await _sceneLoader.Load(SceneName.Core);
+            var sceneInstance = await _sceneLoader.Load(SceneName.Core,progressBar);
 
             await InitUIRoot();
             await InitGameWorld();
@@ -63,6 +68,9 @@ namespace Project.Dev.Infrastructure.GameStateMachine.States
         {
             await _uiFactorie.CreateUiRoot();
         }
+
+        private async Task InitProgressBArRoot() =>
+            await _uiFactorie.CreateProgressBarUiRoot();
 
         private async Task InitUI()
         {

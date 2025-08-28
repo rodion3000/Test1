@@ -29,6 +29,14 @@ MonoBehaviour:
     m_Address: HudPrefab
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: a0ff6877476ff7b488b98d4e6e9e8f60
+    m_Address: ProgressBar
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 1af65d1c7db0db04e83734b6857332ea
+    m_Address: ProgressBarUiRoot
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 75c795598c9022242910159c886810b5, type: 2}
   m_SchemaSet:

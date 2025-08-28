@@ -3,6 +3,7 @@ using Project.Dev.Infrastructure.Factories.Interfaces;
 using Project.Dev.Infrastructure.GameStateMachine.Interface;
 using CustomExtensions.Tasks;
 using Project.Dev.Infrastructure.SceneManagment;
+using ProgressBar = Project.Dev.Meta.UI.ProgressBar.ProgressBar;
 
 namespace Project.Dev.Infrastructure.GameStateMachine.States
 {
@@ -32,8 +33,11 @@ namespace Project.Dev.Infrastructure.GameStateMachine.States
         private async Task WarmUpAndLoad()
         {
             await _uiFactorie.WarmUp();
+            await InitProgressBArRoot();
+            var progressBar = await _uiFactorie.CreateProgressBar();
+            await Task.Delay(500);
 
-            var sceneInstance = await _sceneLoader.Load(SceneName.Meta);
+            var sceneInstance = await _sceneLoader.Load(SceneName.Meta,progressBar);
             await InitUiRoot();
             await InitMainMenu();
         }
@@ -41,6 +45,9 @@ namespace Project.Dev.Infrastructure.GameStateMachine.States
 
         private async Task InitUiRoot() =>
             await _uiFactorie.CreateUiRoot();
+
+        private async Task InitProgressBArRoot() =>
+            await _uiFactorie.CreateProgressBarUiRoot();
 
 
         private async Task InitMainMenu()

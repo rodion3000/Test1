@@ -6,6 +6,8 @@ using Project.Dev.Services.Logging;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceProviders;
+using UnityEngine.UIElements;
+using ProgressBar = Project.Dev.Meta.UI.ProgressBar.ProgressBar;
 
 namespace Project.Dev.Infrastructure.AssetManager
 {
@@ -46,9 +48,16 @@ namespace Project.Dev.Infrastructure.AssetManager
                 token: cancellationToken);
         }
 
-        public async Task<SceneInstance> LoadScene(SceneName sceneName, CancellationToken cancellationToken)
+        public async Task<SceneInstance> LoadScene(SceneName sceneName, ProgressBar progressBar,CancellationToken cancellationToken)
         {
             var operationHandle = Addressables.LoadSceneAsync(sceneName.ToSceneString());
+            while (!operationHandle.IsDone)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+
+                progressBar.SetProgress(operationHandle.PercentComplete);
+                await Task.Delay(500);
+            }
 
             return await operationHandle.Task;
         }
