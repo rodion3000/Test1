@@ -5,6 +5,7 @@ using UnityEngine;
 using CustomExtensions.Functional;
 using Project.Dev.GamePlay.NPC.Player;
 using Project.Dev.Infrastructure.AssetManager;
+using Project.Dev.Services.Logging;
 using Project.Dev.Services.StaticDataService;
 using Unity.Mathematics;
 using Zenject;
@@ -17,14 +18,16 @@ namespace Project.Dev.Infrastructure.Factories
         private readonly IStaticDataService _staticDataService;
         private readonly IAssetProvider _assetProvider;
         private readonly DiContainer _container;
+        private readonly ILoggingService _loggingService;
 
         [CanBeNull] public GameObject Hero { get; private set; }
 
-        public HeroFactorie(IStaticDataService staticDataService, IAssetProvider assetProvider, DiContainer container)
+        public HeroFactorie(IStaticDataService staticDataService, IAssetProvider assetProvider, DiContainer container, ILoggingService loggingService)
         {
             _staticDataService = staticDataService;
             _assetProvider = assetProvider;
             _container = container;
+            _loggingService = loggingService;
         }
 
         public async Task WarmUp()
@@ -43,6 +46,7 @@ namespace Project.Dev.Infrastructure.Factories
             var config = _staticDataService.ForHero();
             var prefab = await _assetProvider.Load<GameObject>(key: HeroPrefabId);
 
+            _loggingService.LogMessage("Load Hero");
             return Hero = Object.Instantiate(prefab, at, quaternion.identity)
                 .With(hero => _container.InjectGameObject(hero))
                 .With(hero => hero.GetComponent<SpineArcher>()

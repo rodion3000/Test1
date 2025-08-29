@@ -3,6 +3,7 @@ using Project.Dev.GamePlay.Location;
 using Project.Dev.Infrastructure.AssetManager;
 using CustomExtensions.Functional;
 using Project.Dev.Infrastructure.Factories.Interfaces;
+using Project.Dev.Services.Logging;
 using Project.Dev.Services.StaticDataService;
 using UnityEngine;
 using Zenject;
@@ -14,12 +15,14 @@ namespace Project.Dev.Infrastructure.Factories
         private readonly IAssetProvider _assetProvider;
         private readonly IStaticDataService _staticDataService;
         private readonly DiContainer _container;
+        private readonly ILoggingService _loggingService;
 
-        public StageFactorie(IAssetProvider assetProvider, DiContainer container, IStaticDataService staticDataService)
+        public StageFactorie(IAssetProvider assetProvider, DiContainer container, IStaticDataService staticDataService, ILoggingService loggingService)
         {
             _assetProvider = assetProvider;
             _container = container;
             _staticDataService = staticDataService;
+            _loggingService = loggingService;
         }
         public async Task WarmUp(string locationName)
         {
@@ -35,6 +38,7 @@ namespace Project.Dev.Infrastructure.Factories
         {
 
             var prefab = await _assetProvider.Load<GameObject>(key: locationName);
+            _loggingService.LogMessage($"Load {locationName}");
             return Object.Instantiate(prefab)
                 .GetComponent<LocationManager>()
                 .With(location => _container.Inject(location))

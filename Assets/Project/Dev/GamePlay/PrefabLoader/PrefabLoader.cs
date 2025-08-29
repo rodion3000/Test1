@@ -18,6 +18,7 @@ namespace Project.Dev.GamePlay.PrefabLoader
                 if (handle.Status == AsyncOperationStatus.Succeeded)
                 {
                     Instantiate(handle.Result);
+                    Debug.Log($"Load {handle.Result}");
                 }
                 else
                 {
