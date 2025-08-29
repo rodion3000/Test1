@@ -21,6 +21,14 @@ MonoBehaviour:
     m_Address: Player
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: a9614a79c3b3421489b520bd7e056797
+    m_Address: PrefabLoader1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 2df4463ab4df5b145a158d8360fd53c5
+    m_Address: PrefabLoader2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 75c795598c9022242910159c886810b5, type: 2}
   m_SchemaSet:
